@@ -1,0 +1,68 @@
+[
+  {
+    "input": "How many customers are in the shop database? Use the database to answer.",
+    "expectedTools": ["run_sql"],
+    "expectedAnswerContains": ["8"],
+    "notes": "Basic single-tool SQL lookup."
+  },
+  {
+    "input": "Which customer has the highest total order spend, and what is their total? Use run_sql.",
+    "expectedTools": ["run_sql"],
+    "expectedAnswerContains": ["Liam Patel", "581"],
+    "notes": "Checks a SQL join, aggregation, ordering, and concise reporting."
+  },
+  {
+    "input": "Use run_code to convert 72 degrees Fahrenheit to Celsius and report the result rounded to two decimals.",
+    "expectedTools": ["run_code"],
+    "expectedAnswerContains": ["22.22"],
+    "notes": "Basic single-tool code execution with no database dependency."
+  },
+  {
+    "input": "First use run_sql to calculate total order revenue. Then use run_code to multiply that returned total by 0.92 for a USD-to-EUR conversion. Report the converted value to two decimals; do not do the second calculation yourself.",
+    "expectedTools": ["run_sql", "run_code"],
+    "expectedAnswerContains": ["2668.4"],
+    "notes": "Chained SQL-to-code calculation and numeric formatting."
+  },
+  {
+    "input": "Use run_sql to calculate total order amount for each customer city. Then use run_code to determine which returned city has the largest total. Report the city and total.",
+    "expectedTools": ["run_sql", "run_code"],
+    "expectedAnswerContains": ["Austin", "1431.84"],
+    "notes": "Passes grouped SQL output into code for selection."
+  },
+  {
+    "input": "Use run_sql to fetch every order amount. Then use run_code to calculate the median order amount. Report the median.",
+    "expectedTools": ["run_sql", "run_code"],
+    "expectedAnswerContains": ["128.2"],
+    "notes": "Tests multi-step handling of a row set and a statistic."
+  },
+  {
+    "input": "First use run_sql to get Maya Chen's order amounts. Then use run_code to produce a JSON summary containing her name, order count, and total rounded to two decimals. Include those values in the final answer.",
+    "expectedTools": ["run_sql", "run_code"],
+    "expectedAnswerContains": ["Maya Chen", "3", "350.65"],
+    "notes": "Checks SQL filtering followed by code-based aggregation and formatting."
+  },
+  {
+    "input": "What is the capital of France? Answer without using a tool.",
+    "expectedTools": [],
+    "expectedAnswerContains": ["Paris"],
+    "notes": "No-tool control; unnecessary tool use should fail tool selection."
+  },
+  {
+    "input": "Failure recovery test: deliberately call run_sql with SELECT email FROM customers. After the tool reports the missing-column error, recover by calling run_sql with a valid query that lists customer names and cities. Tell me which city Maya Chen lives in.",
+    "expectedTools": ["run_sql", "run_sql"],
+    "expectedAnswerContains": ["Austin"],
+    "notes": "Injects a nonexistent SQL column and requires a successful retry."
+  },
+  {
+    "input": "Failure recovery test: deliberately call run_code with throw new Error('planned failure'). After it fails, call run_code again with code that prints 6 * 7. Report the recovered result.",
+    "expectedTools": ["run_code", "run_code"],
+    "expectedAnswerContains": ["42"],
+    "notes": "Injects a subprocess exception and verifies recovery without a crash."
+  },
+  {
+    "input": "How many minutes are in 2.5 hours? Use a tool only if it is genuinely useful.",
+    "expectedTools": [],
+    "expectedAnswerContains": ["150"],
+    "notes": "Ambiguous efficiency case: arithmetic could use code, but direct reasoning is preferred."
+  }
+]
