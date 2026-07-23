@@ -4,9 +4,9 @@
 
 CLI agent for querying shop data, verified by an automated eval suite.
 
+## 
 </div>
 
----
 Most agent demos stop at "look, it called a tool." This one exists to answer a
 harder question: how do you know the agent is doing the right thing, reliably,
 and not just occasionally getting lucky?
