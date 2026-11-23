@@ -34,6 +34,7 @@ Pass the answer only if all of these hold:
 - It agrees with the reference values. A wrong, missing, or invented value is a fail, even if it is stated confidently.
 - Every number and name it states is supported by the tool outputs in the trace, or is common knowledge that needs no tool. Arithmetic is correct.
 - It follows explicit instructions in the question, such as which tool to use, in what order, or not to use a tool. A tool call sequence that differs from the expected sequence is a fail when the user asked for specific tools.
+- When the question asks for a currency conversion, the answer must clearly state the requested target currency, by name, code, or symbol (for example EUR or €). A wrong or missing currency is a fail, even if the number is right.
 - It does not claim to have done something the trace does not show.
 
 A tool call that failed is acceptable if the assistant recovered and the final answer is correct.
