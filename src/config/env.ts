@@ -1,9 +1,19 @@
 import { z } from "zod";
 
-const envSchema = z.object({
-  OPENROUTER_API_KEY: z.string().min(1, "OPENROUTER_API_KEY is required"),
-  MODEL: z.string().default("google/gemini-2.5-flash"),
-});
+const envSchema = z
+  .object({
+    PROVIDER: z.enum(["openrouter", "opencode-go"]).default("openrouter"),
+    OPENROUTER_API_KEY: z.string().optional(),
+    OPENCODE_API_KEY: z.string().optional(),
+    MODEL: z.string().default("google/gemini-2.5-flash"),
+    GRADER_MODEL: z.string().optional(),
+  })
+  .superRefine((env, ctx) => {
+    const key = env.PROVIDER === "opencode-go" ? "OPENCODE_API_KEY" : "OPENROUTER_API_KEY";
+    if (!env[key]) {
+      ctx.addIssue({ code: "custom", path: [key], message: `${key} is required for PROVIDER=${env.PROVIDER}` });
+    }
+  });
 
 export type EnvConfig = z.infer<typeof envSchema>;
 
