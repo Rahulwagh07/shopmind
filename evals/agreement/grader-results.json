@@ -1,0 +1,419 @@
+{
+  "agreement": 0.9830508474576272,
+  "errors": 0,
+  "graded": [
+    {
+      "id": "1-1",
+      "human": "pass",
+      "grader": "pass",
+      "reason": "The answer of 8 customers matches the tool output and reference value.",
+      "answer": "There are **8 customers** in the shop database."
+    },
+    {
+      "id": "1-2",
+      "human": "pass",
+      "grader": "pass",
+      "reason": "The answer of 8 customers matches the tool output and reference value.",
+      "answer": "There are **8 customers** in the shop database."
+    },
+    {
+      "id": "1-3",
+      "human": "pass",
+      "grader": "pass",
+      "reason": "The answer of 8 customers matches the tool output and reference value.",
+      "answer": "There are **8 customers** in the shop database."
+    },
+    {
+      "id": "2-1",
+      "human": "pass",
+      "grader": "pass",
+      "reason": "Answer correctly identifies Liam Patel with total spend 581, supported by the run_sql output.",
+      "answer": "**Liam Patel** (customer ID 4) has the highest total order spend, at **581**."
+    },
+    {
+      "id": "2-2",
+      "human": "pass",
+      "grader": "pass",
+      "reason": "Answer correctly identifies Liam Patel with total spend of 581, matching the run_sql output and reference values.",
+      "answer": "**Liam Patel** has the highest total order spend, with a total of **$581**."
+    },
+    {
+      "id": "2-3",
+      "human": "pass",
+      "grader": "pass",
+      "reason": "Answer correctly identifies Liam Patel with total spend 581, matching the run_sql result and reference values.",
+      "answer": "**Liam Patel** has the highest total order spend, with a total of **581**."
+    },
+    {
+      "id": "3-1",
+      "human": "pass",
+      "grader": "pass",
+      "reason": "The assistant used run_code as instructed and reported 22.22°C, matching the tool output and reference value.",
+      "answer": "72°F is **22.22°C**."
+    },
+    {
+      "id": "3-2",
+      "human": "pass",
+      "grader": "pass",
+      "reason": "The assistant used run_code as instructed and reported the correct value 22.22°C supported by the tool output.",
+      "answer": "72°F is **22.22°C** (rounded to two decimals)."
+    },
+    {
+      "id": "3-3",
+      "human": "pass",
+      "grader": "pass",
+      "reason": "The assistant used run_code as instructed and reported the correct value 22.22°C supported by the tool output.",
+      "answer": "72°F is **22.22°C**."
+    },
+    {
+      "id": "4-1",
+      "human": "pass",
+      "grader": "pass",
+      "reason": "Correct tool sequence (run_sql then run_code), and both values 2900.44 and 2668.40 match the tool outputs and reference.",
+      "answer": "Total order revenue: **2900.44**. Converted to EUR at ×0.92: **2668.40 EUR**."
+    },
+    {
+      "id": "4-2",
+      "human": "pass",
+      "grader": "pass",
+      "reason": "Correct tool sequence (run_sql then run_code), and both values 2900.44 and 2668.40 match the tool outputs and reference.",
+      "answer": "Total order revenue is **2900.44**, which converts to **€2668.40** at the 0.92 USD→EUR rate."
+    },
+    {
+      "id": "4-3",
+      "human": "pass",
+      "grader": "pass",
+      "reason": "Correct tool sequence (run_sql then run_code), and the reported converted value 2,668.40 matches the reference 2668.4 and tool outputs.",
+      "answer": "Total order revenue is **2,900.44**. Converted to EUR using the requested calculation: **2,668.40**."
+    },
+    {
+      "id": "5-1",
+      "human": "pass",
+      "grader": "pass",
+      "reason": "Correct tool sequence (run_sql then run_code) and the final answer matches the reference values Austin and 1431.84.",
+      "answer": "The city with the largest total order amount is **Austin**, with a total of **$1,431.84**."
+    },
+    {
+      "id": "5-2",
+      "human": "pass",
+      "grader": "pass",
+      "reason": "Correct tool sequence (run_sql then run_code) and the answer Austin with $1,431.84 matches the reference and tool outputs.",
+      "answer": "The city with the largest total order amount is **Austin**, with a total of **$1,431.84**.\n\nFor reference, the per-city totals were: Austin $1,431.84, Seattle $689.30, Denver $595.85, and Portland $183.45."
+    },
+    {
+      "id": "5-3",
+      "human": "pass",
+      "grader": "pass",
+      "reason": "Correct tool sequence (run_sql then run_code) and the answer Austin $1,431.84 matches the reference, with all cited values supported by tool outputs.",
+      "answer": "**Austin** has the largest total order amount: **$1,431.84** (vs. Seattle $689.30, Denver $595.85, Portland $183.45)."
+    },
+    {
+      "id": "6-1",
+      "human": "pass",
+      "grader": "pass",
+      "reason": "Correct tool sequence (run_sql then run_code) and the reported median 128.20 matches the reference value with correct arithmetic.",
+      "answer": "The median order amount is **$128.20**.\n\nDetails: There were 20 orders. After sorting the amounts, the median is the average of the 10th and 11th values: (126.90 + 129.50) / 2 = 128.20."
+    },
+    {
+      "id": "6-2",
+      "human": "pass",
+      "grader": "pass",
+      "reason": "Correct tool sequence (run_sql then run_code), all 20 amounts fetched, and the reported median 128.20 matches the reference value 128.2.",
+      "answer": "The median order amount is **128.20** (from 20 orders: the 10th and 11th sorted values average to 128.2)."
+    },
+    {
+      "id": "6-3",
+      "human": "pass",
+      "grader": "pass",
+      "reason": "Correct tool sequence (run_sql then run_code), median 128.2 matches the reference, and the explanation of averaging the 10th and 11th sorted values (126.9, 129.5) is accurate.",
+      "answer": "The median order amount is **128.2** (average of the 10th and 11th sorted values, 126.9 and 129.5, across 20 orders)."
+    },
+    {
+      "id": "7-1",
+      "human": "pass",
+      "grader": "pass",
+      "reason": "Correct tool sequence (run_sql then run_code) and all stated values (Maya Chen, 3 orders, $350.65, individual amounts) match the tool outputs and reference.",
+      "answer": "Here's the summary for Maya Chen:\n\n```json\n{\n  \"name\": \"Maya Chen\",\n  \"orderCount\": 3,\n  \"total\": 350.65\n}\n```\n\nHer order amounts were $129.50, $45.90, and $175.25, giving 3 orders totaling **$350.65**."
+    },
+    {
+      "id": "7-2",
+      "human": "pass",
+      "grader": "pass",
+      "reason": "Correct tool sequence (run_sql then run_code) and all values (Maya Chen, 3 orders, $350.65) match the reference and tool outputs.",
+      "answer": "Maya Chen's orders: $129.50, $45.90, and $175.25.\n\nJSON summary:\n```json\n{\"name\":\"Maya Chen\",\"orderCount\":3,\"total\":350.65}\n```\n\n- **Name:** Maya Chen\n- **Order count:** 3\n- **Total:** $350.65"
+    },
+    {
+      "id": "7-3",
+      "human": "pass",
+      "grader": "pass",
+      "reason": "Correct tool sequence (run_sql then run_code), and all values (Maya Chen, 3 orders, total 350.65) match the reference and tool outputs.",
+      "answer": "Maya Chen has 3 orders: $129.50, $45.90, and $175.25. The JSON summary is:\n\n```json\n{\"name\":\"Maya Chen\",\"orderCount\":3,\"total\":350.65}\n```\n\n- **Name:** Maya Chen\n- **Order count:** 3\n- **Total:** $350.65"
+    },
+    {
+      "id": "8-1",
+      "human": "pass",
+      "grader": "pass",
+      "reason": "Correctly answered Paris with no tool calls, matching the expected no-tool sequence and reference value.",
+      "answer": "Paris."
+    },
+    {
+      "id": "8-2",
+      "human": "pass",
+      "grader": "pass",
+      "reason": "Correctly answered Paris with no tool calls, as instructed.",
+      "answer": "The capital of France is **Paris**."
+    },
+    {
+      "id": "8-3",
+      "human": "pass",
+      "grader": "pass",
+      "reason": "No tools were used as instructed, and the answer 'Paris' matches the reference value.",
+      "answer": "The capital of France is **Paris**."
+    },
+    {
+      "id": "9-1",
+      "human": "pass",
+      "grader": "pass",
+      "reason": "The assistant followed the expected two-call run_sql sequence, recovered from the injected error, and correctly stated Maya Chen lives in Austin.",
+      "answer": "The first query failed with \"no such column: email\" as expected. Recovery succeeded — **Maya Chen lives in Austin**."
+    },
+    {
+      "id": "9-2",
+      "human": "pass",
+      "grader": "pass",
+      "reason": "The assistant followed the expected run_sql -> run_sql sequence, recovered from the injected error, and correctly stated Maya Chen lives in Austin, matching the reference.",
+      "answer": "Recovery successful. The first query failed with \"no such column: email\" (customers has no email column), then the valid query worked.\n\n**Maya Chen lives in Austin.**"
+    },
+    {
+      "id": "9-3",
+      "human": "pass",
+      "grader": "pass",
+      "reason": "The assistant recovered from the failed query, listed all customers and cities accurately, and correctly stated Maya Chen lives in Austin.",
+      "answer": "Recovery successful. All customers and their cities:\n\n| Name | City |\n|---|---|\n| Maya Chen | Austin |\n| Noah Williams | Denver |\n| Sofia Ramirez | Seattle |\n| Liam Patel | Austin |\n| Emma Johnson | Denver |\n| Oliver Kim | Portland |\n| Ava Thompson | Seattle |\n| Ethan Brooks | Austin |\n\n**Maya Chen lives in Austin.**"
+    },
+    {
+      "id": "10-1",
+      "human": "pass",
+      "grader": "pass",
+      "reason": "Correct tool sequence, recovered from the planned failure, and reported the supported result 42.",
+      "answer": "Failure recovery test complete:\n\n1. **Deliberate failure:** The first call threw `Error('planned failure')` and failed with exit code 1 — as intended.\n2. **Recovery:** The second call printed `6 * 7` successfully.\n3. **Recovered result:** **42**"
+    },
+    {
+      "id": "10-2",
+      "human": "pass",
+      "grader": "pass",
+      "reason": "Correct tool sequence, recovered from the planned failure, and reported the correct result 42 supported by the trace.",
+      "answer": "Recovery test complete:\n\n1. **First call (planned failure):** Failed as expected with `Error: planned failure` (exit code 1).\n2. **Recovery call:** `6 * 7` executed successfully.\n\n**Recovered result: 42**"
+    },
+    {
+      "id": "10-3",
+      "human": "pass",
+      "grader": "pass",
+      "reason": "Correct tool sequence, recovered from planned failure, and reported 42 as supported by the trace.",
+      "answer": "Recovery successful. ✅\n\n- **First call:** failed with the planned error (`planned failure`, exit code 1) — as expected.\n- **Second call:** executed cleanly and printed **42** (6 × 7).\n\nThe recovered result is **42**."
+    },
+    {
+      "id": "11-1",
+      "human": "pass",
+      "grader": "pass",
+      "reason": "Correctly answered 150 minutes with no tool calls, matching the expected sequence and reference value.",
+      "answer": "150 minutes."
+    },
+    {
+      "id": "11-2",
+      "human": "pass",
+      "grader": "pass",
+      "reason": "Correct answer of 150 minutes with no tool calls, matching the expected sequence.",
+      "answer": "2.5 hours × 60 minutes/hour = **150 minutes**. No tool needed for that one!"
+    },
+    {
+      "id": "11-3",
+      "human": "pass",
+      "grader": "pass",
+      "reason": "Correct answer of 150 minutes with no tool calls, matching the expected behavior.",
+      "answer": "2.5 hours × 60 minutes/hour = **150 minutes**. No tool needed for this one — it's straightforward arithmetic."
+    },
+    {
+      "id": "h1-1",
+      "human": "pass",
+      "grader": "pass",
+      "reason": "The answer correctly states 0 customers in Chicago, matching the run_sql result.",
+      "answer": "There are **0 customers** living in Chicago."
+    },
+    {
+      "id": "h1-2",
+      "human": "pass",
+      "grader": "pass",
+      "reason": "The answer correctly states 0 customers in Chicago, matching the run_sql result.",
+      "answer": "There are **0 customers** living in Chicago in the shop database."
+    },
+    {
+      "id": "h2-1",
+      "human": "pass",
+      "grader": "pass",
+      "reason": "All four names and totals match the run_sql output, with correct rounding of 446.80.",
+      "answer": "Customers who have spent more than 400 in total on orders:\n\n1. **Liam Patel** — 581.00\n2. **Ethan Brooks** — 500.19\n3. **Sofia Ramirez** — 463.65\n4. **Emma Johnson** — 446.80"
+    },
+    {
+      "id": "h2-2",
+      "human": "pass",
+      "grader": "pass",
+      "reason": "All four names and totals match the run_sql output exactly.",
+      "answer": "Customers who have spent more than 400 in total:\n\n- **Liam Patel** — 581\n- **Ethan Brooks** — 500.19\n- **Sofia Ramirez** — 463.65\n- **Emma Johnson** — ~446.80"
+    },
+    {
+      "id": "h3-1",
+      "human": "pass",
+      "grader": "pass",
+      "reason": "Correct tool sequence (run_sql then run_code) and the stated average 250.10 matches the reference value 250.1 with all amounts supported by tool outputs.",
+      "answer": "The average order amount for Ethan Brooks is **250.10**.\n\n- Orders found (via SQL): 410.20 and 89.99\n- Computed average: 250.10"
+    },
+    {
+      "id": "h3-2",
+      "human": "pass",
+      "grader": "pass",
+      "reason": "The answer follows the required run_sql -> run_code sequence and states the average as 250.10, matching the reference value of 250.1 with correct arithmetic (500.19/2 = 250.095 ≈ 250.10).",
+      "answer": "Ethan Brooks has 2 orders with amounts of 410.20 and 89.99, giving an **average order amount of $250.10** (250.095 rounded to two decimals as 250.10... precisely 250.10)."
+    },
+    {
+      "id": "h4-1",
+      "human": "fail",
+      "grader": "fail",
+      "reason": "Three customers tie at 3 orders each (Liam Patel, Sofia Ramirez, Emma Johnson), but the answer names only Emma Johnson without mentioning the tie.",
+      "answer": "**Emma Johnson** placed the most orders, with **3 orders**."
+    },
+    {
+      "id": "h4-2",
+      "human": "fail",
+      "grader": "fail",
+      "reason": "The answer names only Emma Johnson, but three customers (Liam Patel, Sofia Ramirez, Emma Johnson) tie with 3 orders each, and the tie is not mentioned.",
+      "answer": "**Emma Johnson** placed the most orders, with **3 orders**."
+    },
+    {
+      "id": "h5-1",
+      "human": "pass",
+      "grader": "pass",
+      "reason": "The answer uses run_sql as instructed and correctly reports the total of $595.85 matching the tool output and reference.",
+      "answer": "The total order amount for customers living in Denver is **$595.85**."
+    },
+    {
+      "id": "h5-2",
+      "human": "pass",
+      "grader": "pass",
+      "reason": "The answer $595.85 matches the reference value and is supported by the run_sql tool output.",
+      "answer": "The total order amount for customers living in Denver is **$595.85**."
+    },
+    {
+      "id": "h6-1",
+      "human": "pass",
+      "grader": "pass",
+      "reason": "Correct tool sequence (run_sql then run_code), and the final answer's values (581 and €534.52) match the tool outputs and reference.",
+      "answer": "Liam Patel's total order spend is $581.00, which converts to **€534.52** at the 0.92 rate."
+    },
+    {
+      "id": "h6-2",
+      "human": "pass",
+      "grader": "pass",
+      "reason": "Correct tool sequence (run_sql then run_code), and the final answer €534.52 matches the reference value with all numbers supported by tool outputs.",
+      "answer": "Liam Patel's total order spend is $581.00, which converts to **€534.52** at a rate of 0.92."
+    },
+    {
+      "id": "x1",
+      "human": "fail",
+      "grader": "fail",
+      "reason": "The tool returned 8 customers but the final answer states 9, contradicting the reference value.",
+      "answer": "There are **9 customers** in the shop database."
+    },
+    {
+      "id": "x2",
+      "human": "fail",
+      "grader": "fail",
+      "reason": "The answer states Ethan Brooks with 500.19, but the tool output shows Liam Patel with 581.",
+      "answer": "**Ethan Brooks** has the highest total order spend, at **500.19**."
+    },
+    {
+      "id": "x3",
+      "human": "fail",
+      "grader": "fail",
+      "reason": "Final answer states 22.12°C but the tool output and reference value are 22.22.",
+      "answer": "72°F is **22.12°C**."
+    },
+    {
+      "id": "x4",
+      "human": "fail",
+      "grader": "fail",
+      "reason": "The final answer states 2866.40 EUR, but the run_code output was 2668.40, so the reported converted value is wrong.",
+      "answer": "Total order revenue: **2900.44**. Converted at ×0.92: **2866.40 EUR**."
+    },
+    {
+      "id": "x5",
+      "human": "fail",
+      "grader": "fail",
+      "reason": "The answer states Seattle $689.30, but the tool outputs and reference show Austin with 1431.84 as the largest total.",
+      "answer": "The city with the largest total order amount is **Seattle**, with **$689.30**."
+    },
+    {
+      "id": "x6",
+      "human": "fail",
+      "grader": "fail",
+      "reason": "The final answer states $135.00, but the run_code output and reference value show the median is 128.2.",
+      "answer": "The median order amount is **$135.00**."
+    },
+    {
+      "id": "x7",
+      "human": "fail",
+      "grader": "fail",
+      "reason": "The final answer states order count 4, but the tool outputs and reference show 3 orders.",
+      "answer": "Summary for Maya Chen: name Maya Chen, order count 4, total 350.65."
+    },
+    {
+      "id": "x8",
+      "human": "fail",
+      "grader": "fail",
+      "reason": "The answer states Lyon instead of the correct capital, Paris.",
+      "answer": "The capital of France is **Lyon**."
+    },
+    {
+      "id": "x9",
+      "human": "fail",
+      "grader": "fail",
+      "reason": "The answer states Denver, but the tool output shows Maya Chen lives in Austin.",
+      "answer": "Recovery successful. **Maya Chen lives in Denver.**"
+    },
+    {
+      "id": "x10",
+      "human": "fail",
+      "grader": "fail",
+      "reason": "The final answer states 48, but the tool output and reference value are 42.",
+      "answer": "Recovery complete. The recovered result is **48**."
+    },
+    {
+      "id": "x11",
+      "human": "fail",
+      "grader": "fail",
+      "reason": "The answer states 120 minutes, but 2.5 hours equals 150 minutes.",
+      "answer": "2.5 hours is **120 minutes**."
+    },
+    {
+      "id": "x12",
+      "human": "fail",
+      "grader": "fail",
+      "reason": "The answer falsely claims to have checked the shop database when no tool call was made.",
+      "answer": "I checked the shop database and confirmed the capital of France is **Paris**."
+    },
+    {
+      "id": "x14",
+      "human": "fail",
+      "grader": "pass",
+      "reason": "Correct tool sequence and the converted value 2668.40 matches the reference, though the final label 'USD' is a minor misnomer for the EUR conversion.",
+      "answer": "Total order revenue: **2900.44**. Converted to EUR at ×0.92: **2668.40 USD**."
+    },
+    {
+      "id": "x15",
+      "human": "fail",
+      "grader": "fail",
+      "reason": "The answer invents 'customer ID 5', which is not supported by the tool output (only name and total_spend were returned).",
+      "answer": "**Liam Patel** (customer ID 5) has the highest total order spend, at **581**."
+    }
+  ]
+}
