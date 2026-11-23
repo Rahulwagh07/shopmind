@@ -65,11 +65,43 @@ const hardCases: TestCase[] = [
     expectedAnswerContains: ['534.52'],
     notes: 'Hard: chained lookup and conversion with rounding.',
   },
+  {
+    input: 'Which city has the most orders by count, and how many orders does it have? Use run_sql.',
+    expectedTools: ['run_sql'],
+    expectedAnswerContains: ['Austin', '8'],
+    notes: 'Hard: a join and group-by on city; the answer must name the city and its count.',
+  },
+  {
+    input: 'How many orders are there in total, and what is their combined amount in USD? Use run_sql.',
+    expectedTools: ['run_sql'],
+    expectedAnswerContains: ['20', '2900.44'],
+    notes: 'Hard: two aggregates in one answer, with the currency stated as the question implies.',
+  },
+  {
+    input: 'Convert Maya Chen total order spend to EUR at 0.92. Use run_sql to get the total and run_code to convert it, rounded to two decimals.',
+    expectedTools: ['run_sql', 'run_code'],
+    expectedAnswerContains: ['322.6', 'EUR'],
+    notes: 'Hard: currency conversion; the answer must state the target currency.',
+  },
+  {
+    input: 'Which customer has the lowest average order amount? Use run_sql.',
+    expectedTools: ['run_sql'],
+    expectedAnswerContains: ['Noah Williams'],
+    notes: 'Hard: a per-customer average with ordering, where the answer must name the right customer.',
+  },
+  {
+    input: "What is Liam Patel's email address? Use run_sql.",
+    expectedTools: ['run_sql'],
+    expectedAnswerContains: [],
+    notes: 'Hard: the customers table has no email column. A correct answer says the data is not available and does not invent an address.',
+  },
 ]
 const dir = join(import.meta.dir, 'agreement')
 const samplesPath = join(dir, 'samples.json')
 const labelsPath = join(dir, 'human-labels.json')
 const resultsPath = join(dir, 'grader-results.json')
+const secondSubsetPath = join(dir, 'second-labeler-subset.json')
+const secondLabelsPath = join(dir, 'second-labels.json')
 
 const testCases = testCasesJson as TestCase[]
 const mode = process.argv[2]
@@ -125,6 +157,7 @@ async function collectHard(): Promise<void> {
   for (const [index, testCase] of hardCases.entries()) {
     for (let run = 1; run <= 2; run += 1) {
       const id = `h${index + 1}-${run}`
+      if (samples.some(sample => sample.id === id)) continue
       process.stdout.write(`[${id}] ${testCase.notes.split(':')[0]} `)
       try {
         const result = await runAgent(testCase.input)
@@ -276,10 +309,51 @@ async function compare(): Promise<void> {
   console.log(`\nWrote details to ${resultsPath}`)
 }
 
+async function blindSubset(): Promise<void> {
+  if (!existsSync(samplesPath)) throw new Error('Run "collect" first.')
+  const samples = JSON.parse(await readFile(samplesPath, 'utf8')) as Sample[]
+  const picked = samples.filter((_, index) => index % 4 === 0)
+
+  const items = picked.map(sample => ({
+    id: sample.id,
+    question: sample.input,
+    trace: sample.trace,
+    answer: sample.answer,
+  }))
+
+  await writeFile(secondSubsetPath, JSON.stringify(items, null, 2) + '\n')
+  console.log(`Wrote ${items.length} blind items to ${secondSubsetPath}`)
+  console.log(`Second labeler writes {"<id>": "pass" | "fail"} to ${secondLabelsPath}`)
+}
+
+async function compareLabelers(): Promise<void> {
+  if (!existsSync(secondLabelsPath)) throw new Error(`Missing ${secondLabelsPath}`)
+  const labels = JSON.parse(await readFile(labelsPath, 'utf8')) as Record<string, Verdict>
+  const second = JSON.parse(await readFile(secondLabelsPath, 'utf8')) as Record<string, Verdict>
+
+  const ids = Object.keys(second).filter(id => labels[id])
+  if (ids.length === 0) throw new Error('No overlapping labels to compare.')
+
+  const pairs = ids.map(id => [labels[id], second[id]] as [Verdict, Verdict])
+  const agree = pairs.filter(([a, b]) => a === b).length
+
+  console.log('\nDisagreements')
+  for (const id of ids.filter(id => labels[id] !== second[id])) {
+    console.log(`${id}: me=${labels[id]} second=${second[id]}`)
+  }
+
+  const kappa = cohensKappa(pairs)
+  console.log('\nSummary')
+  console.log(`Labeler agreement: ${agree}/${ids.length} (${((agree / ids.length) * 100).toFixed(1)}%)`)
+  console.log(`Cohen's kappa:     ${kappa === null ? 'n/a (no variation in labels)' : kappa.toFixed(2)}`)
+}
+
 if (mode === 'collect') await collect()
 else if (mode === 'collect-hard') await collectHard()
 else if (mode === 'compare') await compare()
+else if (mode === 'blind-subset') await blindSubset()
+else if (mode === 'compare-labelers') await compareLabelers()
 else {
-  console.error('Usage: bun run evals/grader-agreement.ts <collect|collect-hard|compare>')
+  console.error('Usage: bun run evals/grader-agreement.ts <collect|collect-hard|compare|blind-subset|compare-labelers>')
   process.exitCode = 1
 }

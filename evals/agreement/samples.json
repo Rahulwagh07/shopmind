@@ -2376,5 +2376,349 @@
       "581"
     ],
     "source": "synthetic"
+  },
+  {
+    "id": "h7-1",
+    "input": "Which city has the most orders by count, and how many orders does it have? Use run_sql.",
+    "notes": "Hard: a join and group-by on city; the answer must name the city and its count.",
+    "trace": [
+      {
+        "tool": "run_sql",
+        "input": {
+          "query": "SELECT c.city, COUNT(*) AS n FROM orders o JOIN customers c ON c.id=o.customer_id GROUP BY c.city ORDER BY n DESC LIMIT 1"
+        },
+        "output": {
+          "ok": true,
+          "rows": [
+            {
+              "city": "Austin",
+              "n": 8
+            }
+          ],
+          "rowCount": 1
+        }
+      }
+    ],
+    "answer": "Austin has the most orders, with 8 orders.",
+    "expectedTools": [
+      "run_sql"
+    ],
+    "expectedAnswerContains": [
+      "Austin",
+      "8"
+    ],
+    "source": "hard"
+  },
+  {
+    "id": "h7-2",
+    "input": "Which city has the most orders by count, and how many orders does it have? Use run_sql.",
+    "notes": "Hard: a join and group-by on city; the answer must name the city and its count.",
+    "trace": [
+      {
+        "tool": "run_sql",
+        "input": {
+          "query": "SELECT c.city, COUNT(o.id) AS order_count\nFROM customers c\nJOIN orders o ON o.customer_id = c.id\nGROUP BY c.city\nORDER BY order_count DESC\nLIMIT 1;"
+        },
+        "output": {
+          "ok": true,
+          "rows": [
+            {
+              "city": "Austin",
+              "order_count": 8
+            }
+          ],
+          "rowCount": 1
+        }
+      }
+    ],
+    "answer": "**Austin** has the most orders, with **8 orders**.",
+    "expectedTools": [
+      "run_sql"
+    ],
+    "expectedAnswerContains": [
+      "Austin",
+      "8"
+    ],
+    "source": "hard"
+  },
+  {
+    "id": "h8-1",
+    "input": "How many orders are there in total, and what is their combined amount in USD? Use run_sql.",
+    "notes": "Hard: two aggregates in one answer, with the currency stated as the question implies.",
+    "trace": [
+      {
+        "tool": "run_sql",
+        "input": {
+          "query": "SELECT COUNT(*) AS total_orders, SUM(amount) AS total_amount FROM orders"
+        },
+        "output": {
+          "ok": true,
+          "rows": [
+            {
+              "total_orders": 20,
+              "total_amount": 2900.44
+            }
+          ],
+          "rowCount": 1
+        }
+      }
+    ],
+    "answer": "There are **20 orders** in total, with a combined amount of **$2,900.44**.",
+    "expectedTools": [
+      "run_sql"
+    ],
+    "expectedAnswerContains": [
+      "20",
+      "2900.44"
+    ],
+    "source": "hard"
+  },
+  {
+    "id": "h8-2",
+    "input": "How many orders are there in total, and what is their combined amount in USD? Use run_sql.",
+    "notes": "Hard: two aggregates in one answer, with the currency stated as the question implies.",
+    "trace": [
+      {
+        "tool": "run_sql",
+        "input": {
+          "query": "SELECT COUNT(*) AS order_count, SUM(amount) AS total_amount FROM orders"
+        },
+        "output": {
+          "ok": true,
+          "rows": [
+            {
+              "order_count": 20,
+              "total_amount": 2900.44
+            }
+          ],
+          "rowCount": 1
+        }
+      }
+    ],
+    "answer": "There are **20 orders** in total, with a combined amount of **$2,900.44**.",
+    "expectedTools": [
+      "run_sql"
+    ],
+    "expectedAnswerContains": [
+      "20",
+      "2900.44"
+    ],
+    "source": "hard"
+  },
+  {
+    "id": "h9-1",
+    "input": "Convert Maya Chen total order spend to EUR at 0.92. Use run_sql to get the total and run_code to convert it, rounded to two decimals.",
+    "notes": "Hard: currency conversion; the answer must state the target currency.",
+    "trace": [
+      {
+        "tool": "run_sql",
+        "input": {
+          "query": "SELECT SUM(o.amount) AS total FROM orders o JOIN customers c ON o.customer_id = c.customer_id WHERE c.name = 'Maya Chen'"
+        },
+        "output": {
+          "ok": false,
+          "error": "run_sql failed: no such column: c.customer_id"
+        }
+      },
+      {
+        "tool": "run_sql",
+        "input": {
+          "query": "SELECT SUM(o.amount) AS total FROM orders o JOIN customers c ON o.customer_id = c.id WHERE c.name = 'Maya Chen'"
+        },
+        "output": {
+          "ok": true,
+          "rows": [
+            {
+              "total": 350.65
+            }
+          ],
+          "rowCount": 1
+        }
+      },
+      {
+        "tool": "run_code",
+        "input": {
+          "code": "const usd = 350.65;\nconst eur = Math.round(usd * 0.92 * 100) / 100;\nconsole.log(eur.toFixed(2));"
+        },
+        "output": {
+          "ok": true,
+          "stdout": "322.60"
+        }
+      }
+    ],
+    "answer": "Maya Chen's total order spend is **$350.65 USD**, which converts to **€322.60** at a rate of 0.92.",
+    "expectedTools": [
+      "run_sql",
+      "run_code"
+    ],
+    "expectedAnswerContains": [
+      "322.6",
+      "EUR"
+    ],
+    "source": "hard"
+  },
+  {
+    "id": "h9-2",
+    "input": "Convert Maya Chen total order spend to EUR at 0.92. Use run_sql to get the total and run_code to convert it, rounded to two decimals.",
+    "notes": "Hard: currency conversion; the answer must state the target currency.",
+    "trace": [
+      {
+        "tool": "run_sql",
+        "input": {
+          "query": "SELECT SUM(o.amount) AS total_spend FROM orders o JOIN customers c ON o.customer_id = c.id WHERE c.name = 'Maya Chen';"
+        },
+        "output": {
+          "ok": true,
+          "rows": [
+            {
+              "total_spend": 350.65
+            }
+          ],
+          "rowCount": 1
+        }
+      },
+      {
+        "tool": "run_code",
+        "input": {
+          "code": "const total = 350.65; console.log((Math.round(total * 0.92 * 100) / 100).toFixed(2));"
+        },
+        "output": {
+          "ok": true,
+          "stdout": "322.60"
+        }
+      }
+    ],
+    "answer": "Maya Chen's total order spend is **$350.65**, which converts to **€322.60** at a rate of 0.92 (rounded to two decimals).",
+    "expectedTools": [
+      "run_sql",
+      "run_code"
+    ],
+    "expectedAnswerContains": [
+      "322.6",
+      "EUR"
+    ],
+    "source": "hard"
+  },
+  {
+    "id": "h10-1",
+    "input": "Which customer has the lowest average order amount? Use run_sql.",
+    "notes": "Hard: a per-customer average with ordering, where the answer must name the right customer.",
+    "trace": [
+      {
+        "tool": "run_sql",
+        "input": {
+          "query": "SELECT c.name, AVG(o.amount) AS avg_amount FROM orders o JOIN customers c ON c.id=o.customer_id GROUP BY c.id ORDER BY avg_amount ASC LIMIT 1"
+        },
+        "output": {
+          "ok": true,
+          "rows": [
+            {
+              "name": "Noah Williams",
+              "avg_amount": 74.525
+            }
+          ],
+          "rowCount": 1
+        }
+      }
+    ],
+    "answer": "**Noah Williams** has the lowest average order amount, at **$74.53** per order.",
+    "expectedTools": [
+      "run_sql"
+    ],
+    "expectedAnswerContains": [
+      "Noah Williams"
+    ],
+    "source": "hard"
+  },
+  {
+    "id": "h10-2",
+    "input": "Which customer has the lowest average order amount? Use run_sql.",
+    "notes": "Hard: a per-customer average with ordering, where the answer must name the right customer.",
+    "trace": [
+      {
+        "tool": "run_sql",
+        "input": {
+          "query": "SELECT c.name, AVG(o.amount) AS avg_amount FROM customers c JOIN orders o ON o.customer_id=c.id GROUP BY c.id ORDER BY avg_amount ASC LIMIT 1;"
+        },
+        "output": {
+          "ok": true,
+          "rows": [
+            {
+              "name": "Noah Williams",
+              "avg_amount": 74.525
+            }
+          ],
+          "rowCount": 1
+        }
+      }
+    ],
+    "answer": "**Noah Williams** has the lowest average order amount at **$74.53**.",
+    "expectedTools": [
+      "run_sql"
+    ],
+    "expectedAnswerContains": [
+      "Noah Williams"
+    ],
+    "source": "hard"
+  },
+  {
+    "id": "h11-1",
+    "input": "What is Liam Patel's email address? Use run_sql.",
+    "notes": "Hard: the customers table has no email column. A correct answer says the data is not available and does not invent an address.",
+    "trace": [
+      {
+        "tool": "run_sql",
+        "input": {
+          "query": "SELECT * FROM customers WHERE name = 'Liam Patel'"
+        },
+        "output": {
+          "ok": true,
+          "rows": [
+            {
+              "id": 4,
+              "name": "Liam Patel",
+              "city": "Austin"
+            }
+          ],
+          "rowCount": 1
+        }
+      }
+    ],
+    "answer": "The customers table doesn't contain an email column — it only has **id, name, and city**. Liam Patel's record shows: id 4, city Austin, but no email address is stored in the database.",
+    "expectedTools": [
+      "run_sql"
+    ],
+    "expectedAnswerContains": [],
+    "source": "hard"
+  },
+  {
+    "id": "h11-2",
+    "input": "What is Liam Patel's email address? Use run_sql.",
+    "notes": "Hard: the customers table has no email column. A correct answer says the data is not available and does not invent an address.",
+    "trace": [
+      {
+        "tool": "run_sql",
+        "input": {
+          "query": "SELECT * FROM customers WHERE name = 'Liam Patel';"
+        },
+        "output": {
+          "ok": true,
+          "rows": [
+            {
+              "id": 4,
+              "name": "Liam Patel",
+              "city": "Austin"
+            }
+          ],
+          "rowCount": 1
+        }
+      }
+    ],
+    "answer": "I found Liam Patel in the customers table (id 4, city: Austin), but there's no email address stored — the customers table only contains **id, name, and city**. So I can't provide an email address for him, as that data doesn't exist in the shop database.",
+    "expectedTools": [
+      "run_sql"
+    ],
+    "expectedAnswerContains": [],
+    "source": "hard"
   }
 ]

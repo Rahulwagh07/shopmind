@@ -12,6 +12,8 @@
     "eval": "bun run evals/run-eval.ts",
     "grader:collect": "bun run evals/grader-agreement.ts collect",
     "grader:collect-hard": "bun run evals/grader-agreement.ts collect-hard",
+    "grader:blind-subset": "bun run evals/grader-agreement.ts blind-subset",
+    "grader:compare-labelers": "bun run evals/grader-agreement.ts compare-labelers",
     "grader:compare": "bun run evals/grader-agreement.ts compare",
     "test": "bun test",
     "typecheck": "tsc --noEmit"
