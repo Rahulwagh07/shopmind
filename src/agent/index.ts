@@ -1,10 +1,7 @@
 import OpenAI from 'openai'
 import { functionDeclarations } from '../tools/index.ts'
 import type { AgentResult, ToolCallStep } from '../types/index.ts'
-import { getConfig } from '../config/env.ts'
-
-const config = getConfig()
-const MODEL = config.MODEL
+import { createLlmClient } from '../llm/index.ts'
 import { MAX_ITERATIONS, SYSTEM_INSTRUCTION } from './constants.ts'
 
 import { asToolInput, executeTool } from './utils.ts'
@@ -70,19 +67,17 @@ export async function runAgentWithGenerator(
 }
 
 export async function runAgent(question: string): Promise<AgentResult> {
-  const config = getConfig()
-  const apiKey = config.OPENROUTER_API_KEY
-
-  const openai = new OpenAI({
-    apiKey,
-    baseURL: 'https://openrouter.ai/api/v1',
-  })
+  const { client, model, requestOptions } = createLlmClient()
 
   return runAgentWithGenerator(question, messages =>
-    openai.chat.completions.create({
-      model: MODEL,
-      messages,
-      tools: functionDeclarations,
-    })
+    client.chat.completions.create(
+      {
+        model,
+        messages,
+        tools: functionDeclarations,
+        max_tokens: 4096,
+      },
+      requestOptions()
+    )
   )
 }
