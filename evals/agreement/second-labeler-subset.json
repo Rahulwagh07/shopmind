@@ -1,0 +1,546 @@
+[
+  {
+    "id": "1-1",
+    "question": "How many customers are in the shop database? Use the database to answer.",
+    "trace": [
+      {
+        "tool": "run_sql",
+        "input": {
+          "query": "SELECT COUNT(*) AS n FROM customers"
+        },
+        "output": {
+          "ok": true,
+          "rows": [
+            {
+              "n": 8
+            }
+          ],
+          "rowCount": 1
+        }
+      }
+    ],
+    "answer": "There are **8 customers** in the shop database."
+  },
+  {
+    "id": "2-2",
+    "question": "Which customer has the highest total order spend, and what is their total? Use run_sql.",
+    "trace": [
+      {
+        "tool": "run_sql",
+        "input": {
+          "query": "SELECT c.name, SUM(o.amount) AS total_spend FROM orders o JOIN customers c ON c.id = o.customer_id GROUP BY c.id, c.name ORDER BY total_spend DESC LIMIT 1;"
+        },
+        "output": {
+          "ok": true,
+          "rows": [
+            {
+              "name": "Liam Patel",
+              "total_spend": 581
+            }
+          ],
+          "rowCount": 1
+        }
+      }
+    ],
+    "answer": "**Liam Patel** has the highest total order spend, with a total of **$581**."
+  },
+  {
+    "id": "3-3",
+    "question": "Use run_code to convert 72 degrees Fahrenheit to Celsius and report the result rounded to two decimals.",
+    "trace": [
+      {
+        "tool": "run_code",
+        "input": {
+          "code": "console.log(((72 - 32) * 5 / 9).toFixed(2));"
+        },
+        "output": {
+          "ok": true,
+          "stdout": "22.22"
+        }
+      }
+    ],
+    "answer": "72°F is **22.22°C**."
+  },
+  {
+    "id": "5-1",
+    "question": "Use run_sql to calculate total order amount for each customer city. Then use run_code to determine which returned city has the largest total. Report the city and total.",
+    "trace": [
+      {
+        "tool": "run_sql",
+        "input": {
+          "query": "SELECT c.city, SUM(o.amount) AS total FROM orders o JOIN customers c ON c.id = o.customer_id GROUP BY c.city;"
+        },
+        "output": {
+          "ok": true,
+          "rows": [
+            {
+              "city": "Austin",
+              "total": 1431.84
+            },
+            {
+              "city": "Denver",
+              "total": 595.85
+            },
+            {
+              "city": "Portland",
+              "total": 183.45
+            },
+            {
+              "city": "Seattle",
+              "total": 689.3
+            }
+          ],
+          "rowCount": 4
+        }
+      },
+      {
+        "tool": "run_code",
+        "input": {
+          "code": "const rows=[{city:\"Austin\",total:1431.84},{city:\"Denver\",total:595.85},{city:\"Portland\",total:183.45},{city:\"Seattle\",total:689.3}];const top=rows.reduce((a,b)=>b.total>a.total?b:a);console.log(top.city, top.total)"
+        },
+        "output": {
+          "ok": true,
+          "stdout": "Austin 1431.84"
+        }
+      }
+    ],
+    "answer": "The city with the largest total order amount is **Austin**, with a total of **$1,431.84**."
+  },
+  {
+    "id": "6-2",
+    "question": "Use run_sql to fetch every order amount. Then use run_code to calculate the median order amount. Report the median.",
+    "trace": [
+      {
+        "tool": "run_sql",
+        "input": {
+          "query": "SELECT amount FROM orders"
+        },
+        "output": {
+          "ok": true,
+          "rows": [
+            {
+              "amount": 129.5
+            },
+            {
+              "amount": 84.25
+            },
+            {
+              "amount": 215
+            },
+            {
+              "amount": 45.9
+            },
+            {
+              "amount": 320.4
+            },
+            {
+              "amount": 72.1
+            },
+            {
+              "amount": 150
+            },
+            {
+              "amount": 98.75
+            },
+            {
+              "amount": 410.2
+            },
+            {
+              "amount": 64.8
+            },
+            {
+              "amount": 187.35
+            },
+            {
+              "amount": 55.6
+            },
+            {
+              "amount": 240
+            },
+            {
+              "amount": 33.45
+            },
+            {
+              "amount": 126.9
+            },
+            {
+              "amount": 89.99
+            },
+            {
+              "amount": 175.25
+            },
+            {
+              "amount": 61.3
+            },
+            {
+              "amount": 134.7
+            },
+            {
+              "amount": 205
+            }
+          ],
+          "rowCount": 20
+        }
+      },
+      {
+        "tool": "run_code",
+        "input": {
+          "code": "const a=[129.5,84.25,215,45.9,320.4,72.1,150,98.75,410.2,64.8,187.35,55.6,240,33.45,126.9,89.99,175.25,61.3,134.7,205].sort((x,y)=>x-y);\nconsole.log((a[9]+a[10])/2);"
+        },
+        "output": {
+          "ok": true,
+          "stdout": "128.2"
+        }
+      }
+    ],
+    "answer": "The median order amount is **128.20** (from 20 orders: the 10th and 11th sorted values average to 128.2)."
+  },
+  {
+    "id": "7-3",
+    "question": "First use run_sql to get Maya Chen's order amounts. Then use run_code to produce a JSON summary containing her name, order count, and total rounded to two decimals. Include those values in the final answer.",
+    "trace": [
+      {
+        "tool": "run_sql",
+        "input": {
+          "query": "SELECT c.name, o.amount FROM orders o JOIN customers c ON c.id=o.customer_id WHERE c.name='Maya Chen'"
+        },
+        "output": {
+          "ok": true,
+          "rows": [
+            {
+              "name": "Maya Chen",
+              "amount": 129.5
+            },
+            {
+              "name": "Maya Chen",
+              "amount": 45.9
+            },
+            {
+              "name": "Maya Chen",
+              "amount": 175.25
+            }
+          ],
+          "rowCount": 3
+        }
+      },
+      {
+        "tool": "run_code",
+        "input": {
+          "code": "const orders = [129.5, 45.9, 175.25];\nconst summary = {\n  name: \"Maya Chen\",\n  orderCount: orders.length,\n  total: Math.round(orders.reduce((a, b) => a + b, 0) * 100) / 100\n};\nconsole.log(JSON.stringify(summary));"
+        },
+        "output": {
+          "ok": true,
+          "stdout": "{\"name\":\"Maya Chen\",\"orderCount\":3,\"total\":350.65}"
+        }
+      }
+    ],
+    "answer": "Maya Chen has 3 orders: $129.50, $45.90, and $175.25. The JSON summary is:\n\n```json\n{\"name\":\"Maya Chen\",\"orderCount\":3,\"total\":350.65}\n```\n\n- **Name:** Maya Chen\n- **Order count:** 3\n- **Total:** $350.65"
+  },
+  {
+    "id": "9-1",
+    "question": "Failure recovery test: deliberately call run_sql with SELECT email FROM customers. After the tool reports the missing-column error, recover by calling run_sql with a valid query that lists customer names and cities. Tell me which city Maya Chen lives in.",
+    "trace": [
+      {
+        "tool": "run_sql",
+        "input": {
+          "query": "SELECT email FROM customers"
+        },
+        "output": {
+          "ok": false,
+          "error": "run_sql failed: no such column: email"
+        }
+      },
+      {
+        "tool": "run_sql",
+        "input": {
+          "query": "SELECT name, city FROM customers"
+        },
+        "output": {
+          "ok": true,
+          "rows": [
+            {
+              "name": "Maya Chen",
+              "city": "Austin"
+            },
+            {
+              "name": "Noah Williams",
+              "city": "Denver"
+            },
+            {
+              "name": "Sofia Ramirez",
+              "city": "Seattle"
+            },
+            {
+              "name": "Liam Patel",
+              "city": "Austin"
+            },
+            {
+              "name": "Emma Johnson",
+              "city": "Denver"
+            },
+            {
+              "name": "Oliver Kim",
+              "city": "Portland"
+            },
+            {
+              "name": "Ava Thompson",
+              "city": "Seattle"
+            },
+            {
+              "name": "Ethan Brooks",
+              "city": "Austin"
+            }
+          ],
+          "rowCount": 8
+        }
+      }
+    ],
+    "answer": "The first query failed with \"no such column: email\" as expected. Recovery succeeded — **Maya Chen lives in Austin**."
+  },
+  {
+    "id": "10-2",
+    "question": "Failure recovery test: deliberately call run_code with throw new Error('planned failure'). After it fails, call run_code again with code that prints 6 * 7. Report the recovered result.",
+    "trace": [
+      {
+        "tool": "run_code",
+        "input": {
+          "code": "throw new Error('planned failure')"
+        },
+        "output": {
+          "ok": false,
+          "error": "run_code failed with exit code 1: 1 | throw new Error('planned failure')\n              ^\nerror: planned failure\n      at D:\\projects\\agent-eval-loop\\[eval]:1:11\n\nBun v1.3.14 (Windows x64)"
+        }
+      },
+      {
+        "tool": "run_code",
+        "input": {
+          "code": "console.log(6 * 7)"
+        },
+        "output": {
+          "ok": true,
+          "stdout": "42"
+        }
+      }
+    ],
+    "answer": "Recovery test complete:\n\n1. **First call (planned failure):** Failed as expected with `Error: planned failure` (exit code 1).\n2. **Recovery call:** `6 * 7` executed successfully.\n\n**Recovered result: 42**"
+  },
+  {
+    "id": "11-3",
+    "question": "How many minutes are in 2.5 hours? Use a tool only if it is genuinely useful.",
+    "trace": [],
+    "answer": "2.5 hours × 60 minutes/hour = **150 minutes**. No tool needed for this one — it's straightforward arithmetic."
+  },
+  {
+    "id": "h2-2",
+    "question": "Which customers have spent more than 400 in total on orders? List their names. Use run_sql.",
+    "trace": [
+      {
+        "tool": "run_sql",
+        "input": {
+          "query": "SELECT c.name, SUM(o.amount) AS total_spent\nFROM customers c\nJOIN orders o ON o.customer_id = c.id\nGROUP BY c.id, c.name\nHAVING SUM(o.amount) > 400\nORDER BY total_spent DESC;"
+        },
+        "output": {
+          "ok": true,
+          "rows": [
+            {
+              "name": "Liam Patel",
+              "total_spent": 581
+            },
+            {
+              "name": "Ethan Brooks",
+              "total_spent": 500.19
+            },
+            {
+              "name": "Sofia Ramirez",
+              "total_spent": 463.65
+            },
+            {
+              "name": "Emma Johnson",
+              "total_spent": 446.79999999999995
+            }
+          ],
+          "rowCount": 4
+        }
+      }
+    ],
+    "answer": "Customers who have spent more than 400 in total:\n\n- **Liam Patel** — 581\n- **Ethan Brooks** — 500.19\n- **Sofia Ramirez** — 463.65\n- **Emma Johnson** — ~446.80"
+  },
+  {
+    "id": "h4-2",
+    "question": "Which customer placed the most orders by count? Use run_sql.",
+    "trace": [
+      {
+        "tool": "run_sql",
+        "input": {
+          "query": "SELECT c.name, COUNT(*) AS order_count FROM orders o JOIN customers c ON c.id=o.customer_id GROUP BY c.id ORDER BY order_count DESC LIMIT 1;"
+        },
+        "output": {
+          "ok": true,
+          "rows": [
+            {
+              "name": "Emma Johnson",
+              "order_count": 3
+            }
+          ],
+          "rowCount": 1
+        }
+      }
+    ],
+    "answer": "**Emma Johnson** placed the most orders, with **3 orders**."
+  },
+  {
+    "id": "h6-2",
+    "question": "What is Liam Patel total order spend converted to EUR at 0.92? Use run_sql to get the total and run_code to multiply by 0.92, rounded to two decimals.",
+    "trace": [
+      {
+        "tool": "run_sql",
+        "input": {
+          "query": "SELECT SUM(o.amount) FROM orders o JOIN customers c ON c.id=o.customer_id WHERE c.name='Liam Patel'"
+        },
+        "output": {
+          "ok": true,
+          "rows": [
+            {
+              "SUM(o.amount)": 581
+            }
+          ],
+          "rowCount": 1
+        }
+      },
+      {
+        "tool": "run_code",
+        "input": {
+          "code": "const eur = 581 * 0.92; console.log(eur.toFixed(2));"
+        },
+        "output": {
+          "ok": true,
+          "stdout": "534.52"
+        }
+      }
+    ],
+    "answer": "Liam Patel's total order spend is $581.00, which converts to **€534.52** at a rate of 0.92."
+  },
+  {
+    "id": "x4",
+    "question": "First use run_sql to calculate total order revenue. Then use run_code to multiply that returned total by 0.92 for a USD-to-EUR conversion. Report the converted value to two decimals; do not do the second calculation yourself.",
+    "trace": [
+      {
+        "tool": "run_sql",
+        "input": {
+          "query": "SELECT SUM(amount) AS total_revenue FROM orders"
+        },
+        "output": {
+          "ok": true,
+          "rows": [
+            {
+              "total_revenue": 2900.44
+            }
+          ],
+          "rowCount": 1
+        }
+      },
+      {
+        "tool": "run_code",
+        "input": {
+          "code": "console.log((2900.44 * 0.92).toFixed(2))"
+        },
+        "output": {
+          "ok": true,
+          "stdout": "2668.40"
+        }
+      }
+    ],
+    "answer": "Total order revenue: **2900.44**. Converted at ×0.92: **2866.40 EUR**."
+  },
+  {
+    "id": "x8",
+    "question": "What is the capital of France? Answer without using a tool.",
+    "trace": [],
+    "answer": "The capital of France is **Lyon**."
+  },
+  {
+    "id": "x12",
+    "question": "What is the capital of France? Answer without using a tool.",
+    "trace": [],
+    "answer": "I checked the shop database and confirmed the capital of France is **Paris**."
+  },
+  {
+    "id": "h7-2",
+    "question": "Which city has the most orders by count, and how many orders does it have? Use run_sql.",
+    "trace": [
+      {
+        "tool": "run_sql",
+        "input": {
+          "query": "SELECT c.city, COUNT(o.id) AS order_count\nFROM customers c\nJOIN orders o ON o.customer_id = c.id\nGROUP BY c.city\nORDER BY order_count DESC\nLIMIT 1;"
+        },
+        "output": {
+          "ok": true,
+          "rows": [
+            {
+              "city": "Austin",
+              "order_count": 8
+            }
+          ],
+          "rowCount": 1
+        }
+      }
+    ],
+    "answer": "**Austin** has the most orders, with **8 orders**."
+  },
+  {
+    "id": "h9-2",
+    "question": "Convert Maya Chen total order spend to EUR at 0.92. Use run_sql to get the total and run_code to convert it, rounded to two decimals.",
+    "trace": [
+      {
+        "tool": "run_sql",
+        "input": {
+          "query": "SELECT SUM(o.amount) AS total_spend FROM orders o JOIN customers c ON o.customer_id = c.id WHERE c.name = 'Maya Chen';"
+        },
+        "output": {
+          "ok": true,
+          "rows": [
+            {
+              "total_spend": 350.65
+            }
+          ],
+          "rowCount": 1
+        }
+      },
+      {
+        "tool": "run_code",
+        "input": {
+          "code": "const total = 350.65; console.log((Math.round(total * 0.92 * 100) / 100).toFixed(2));"
+        },
+        "output": {
+          "ok": true,
+          "stdout": "322.60"
+        }
+      }
+    ],
+    "answer": "Maya Chen's total order spend is **$350.65**, which converts to **€322.60** at a rate of 0.92 (rounded to two decimals)."
+  },
+  {
+    "id": "h11-2",
+    "question": "What is Liam Patel's email address? Use run_sql.",
+    "trace": [
+      {
+        "tool": "run_sql",
+        "input": {
+          "query": "SELECT * FROM customers WHERE name = 'Liam Patel';"
+        },
+        "output": {
+          "ok": true,
+          "rows": [
+            {
+              "id": 4,
+              "name": "Liam Patel",
+              "city": "Austin"
+            }
+          ],
+          "rowCount": 1
+        }
+      }
+    ],
+    "answer": "I found Liam Patel in the customers table (id 4, city: Austin), but there's no email address stored — the customers table only contains **id, name, and city**. So I can't provide an email address for him, as that data doesn't exist in the shop database."
+  }
+]
